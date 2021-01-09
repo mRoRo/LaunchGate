@@ -1,9 +1,36 @@
 import Foundation
 
+public enum LaunchgateState {
+    case requiredUpdate
+    case blockingUpdateAlert
+    case optionalUpdate
+    case noUpdate
+    case fileError(_ error: String)
+}
+
+extension LaunchgateState: Equatable {
+    static public func == (lhs: LaunchgateState, rhs: LaunchgateState) -> Bool {
+        switch (lhs, rhs) {
+        case (.requiredUpdate, .requiredUpdate): return true
+        case (.blockingUpdateAlert, .blockingUpdateAlert): return true
+        case (.optionalUpdate, .optionalUpdate): return true
+        case (.noUpdate, .noUpdate): return true
+        case (.fileError(let error1), .fileError(let error2)):
+            return (error1 == error2) ? true : false
+        default:
+            return false
+        }
+    }
+}
+
+public protocol LaunchGateDelegate: class {
+    func updateLaunchgateState(_ state: LaunchgateState)
+}
+
 /// Custom internal error type
 typealias LaunchGateError = Error & CustomStringConvertible
 
-public class LaunchGate {
+public class LaunchGate: LaunchGateFileDelegate {
 
     /// Parser to use when parsing the configuration file
     public var parser: LaunchGateParser!
@@ -16,6 +43,7 @@ public class LaunchGate {
 
     /// Manager object for the various alert dialogs
     var dialogManager: DialogManager!
+    public weak var delegate: LaunchGateDelegate?
 
     // MARK: - Public API
 
@@ -54,8 +82,12 @@ public class LaunchGate {
      - Parameter remoteFileManager: The `RemoteFileManager` to use to fetch the configuration file.
      */
     func performCheck(_ remoteFileManager: RemoteFileManager) {
+        remoteFileManager.delegate = self
+        weak var weakSelf = self
         remoteFileManager.fetchRemoteFile { (jsonData) -> Void in
-            guard let config = self.parser.parse(jsonData) else { return }
+            guard let config = self.parser.parse(jsonData) else {
+                weakSelf?.delegate?.updateLaunchgateState(.fileError(LaunchGateFileError.error.rawValue))
+                return }
 
             self.displayDialogIfNecessary(config, dialogManager: self.dialogManager)
         }
@@ -69,15 +101,23 @@ public class LaunchGate {
         - dialogManager: Manager object for the various alert dialogs
      */
     func displayDialogIfNecessary(_ config: LaunchGateConfiguration, dialogManager: DialogManager) {
-        if let reqUpdate = config.requiredUpdate, let appVersion = currentAppVersion() {
-            guard shouldShowRequiredUpdateDialog(reqUpdate, appVersion: appVersion) else { return }
+        weak var weakSelf = self
+        if let reqUpdate = config.requiredUpdate,
+           let appVersion = currentAppVersion(),
+           shouldShowRequiredUpdateDialog(reqUpdate, appVersion: appVersion) {
+            weakSelf?.delegate?.updateLaunchgateState(.requiredUpdate)
             dialogManager.displayRequiredUpdateDialog(reqUpdate, updateURL: updateURL)
-        } else if let optUpdate = config.optionalUpdate, let appVersion = currentAppVersion() {
-            guard shouldShowOptionalUpdateDialog(optUpdate, appVersion: appVersion) else { return }
-            dialogManager.displayOptionalUpdateDialog(optUpdate, updateURL: updateURL)
-        } else if let alert = config.alert {
-            guard shouldShowAlertDialog(alert) else { return }
+        } else if let alert = config.alert,
+                  shouldShowAlertDialog(alert) {
+            weakSelf?.delegate?.updateLaunchgateState(.blockingUpdateAlert)
             dialogManager.displayAlertDialog(alert, blocking: alert.blocking)
+        } else if let optUpdate = config.optionalUpdate,
+                  let appVersion = currentAppVersion(),
+                  shouldShowOptionalUpdateDialog(optUpdate, appVersion: appVersion) {
+            weakSelf?.delegate?.updateLaunchgateState(.optionalUpdate)
+            dialogManager.displayOptionalUpdateDialog(optUpdate, updateURL: updateURL)
+        } else {
+            weakSelf?.delegate?.updateLaunchgateState(.noUpdate)
         }
     }
 
@@ -119,5 +159,9 @@ public class LaunchGate {
     func currentAppVersion() -> String? {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     }
-
+    // LaunchGateFileDelegate
+    func fileError(_ error: LaunchGateFileError) {
+        weak var weakSelf = self
+        weakSelf?.delegate?.updateLaunchgateState(.fileError(error.rawValue))
+    }
 }
