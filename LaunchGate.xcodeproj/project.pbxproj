@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		11F66D4673FBAA74FB00F0B8 /* Pods_LaunchGateTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5B9FED66C40C3A9F291267D /* Pods_LaunchGateTests.framework */; };
+		4FC1C0C925B9ACC700464DDD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4FC1C0CC25B9ACC800464DDD /* Localizable.strings */; };
+		4FC1C0CA25B9ACC800464DDD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4FC1C0CC25B9ACC800464DDD /* Localizable.strings */; };
 		643E0A5CE19FB268DDCC0205 /* Pods_LaunchGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF7F35C6A7FEB0B32A2A0AB /* Pods_LaunchGate.framework */; };
 		C5478DD31C6968C800843BA3 /* AlertConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5478DC81C6968C800843BA3 /* AlertConfiguration.swift */; };
 		C5478DD41C6968C800843BA3 /* DialogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5478DC91C6968C800843BA3 /* DialogManager.swift */; };
@@ -51,6 +53,10 @@
 
 /* Begin PBXFileReference section */
 		28C3FBCFD351860C6C823F05 /* Pods-LaunchGate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LaunchGate.debug.xcconfig"; path = "Target Support Files/Pods-LaunchGate/Pods-LaunchGate.debug.xcconfig"; sourceTree = "<group>"; };
+		4FC1C0CB25B9ACC800464DDD /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4FC1C0D025B9AFF000464DDD /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4FC1C0D225B9B02200464DDD /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4FC1C0D325B9B09000464DDD /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		54459A0302D10ED2336B59E0 /* Pods-LaunchGateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LaunchGateTests.debug.xcconfig"; path = "Target Support Files/Pods-LaunchGateTests/Pods-LaunchGateTests.debug.xcconfig"; sourceTree = "<group>"; };
 		996D876DE61E84967091217E /* Pods-LaunchGate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LaunchGate.release.xcconfig"; path = "Target Support Files/Pods-LaunchGate/Pods-LaunchGate.release.xcconfig"; sourceTree = "<group>"; };
 		AAF7F35C6A7FEB0B32A2A0AB /* Pods_LaunchGate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LaunchGate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,6 +125,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4FC1C0C325B9AB1300464DDD /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				4FC1C0CC25B9ACC800464DDD /* Localizable.strings */,
+			);
+			path = Strings;
+			sourceTree = "<group>";
+		};
 		C5A8786D1C6A74B9004599C2 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +153,7 @@
 		C5A878AA1C6A7E36004599C2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4FC1C0C325B9AB1300464DDD /* Strings */,
 				C5478DD21C6968C800843BA3 /* LaunchGate.h */,
 				C5478DD11C6968C800843BA3 /* Info.plist */,
 			);
@@ -217,7 +232,6 @@
 				54459A0302D10ED2336B59E0 /* Pods-LaunchGateTests.debug.xcconfig */,
 				DC68E14C11A397DC4F4EF304 /* Pods-LaunchGateTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -302,6 +316,9 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
+				ca,
+				pt,
 			);
 			mainGroup = C5C04BBC1C696767007397D0;
 			productRefGroup = C5C04BC71C696767007397D0 /* Products */;
@@ -319,6 +336,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FC1C0C925B9ACC700464DDD /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +349,7 @@
 				C5A8787F1C6A74DD004599C2 /* config.json in Resources */,
 				C5A8787B1C6A74DD004599C2 /* config-malformed-empty.json in Resources */,
 				C5A8787A1C6A74DD004599C2 /* config-malformed-alert.json in Resources */,
+				4FC1C0CA25B9ACC800464DDD /* Localizable.strings in Resources */,
 				C5A110021C73D6D500ACA109 /* config-alert.json in Resources */,
 				C5A8787C1C6A74DD004599C2 /* config-malformed-ios.json in Resources */,
 				C5A8787E1C6A74DD004599C2 /* config-malformed-required.json in Resources */,
@@ -462,6 +481,20 @@
 			targetProxy = C5C04BD21C696767007397D0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		4FC1C0CC25B9ACC800464DDD /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4FC1C0CB25B9ACC800464DDD /* en */,
+				4FC1C0D025B9AFF000464DDD /* es */,
+				4FC1C0D225B9B02200464DDD /* ca */,
+				4FC1C0D325B9B09000464DDD /* pt */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C5C04BD81C696767007397D0 /* Debug */ = {
