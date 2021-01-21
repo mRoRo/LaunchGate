@@ -83,13 +83,13 @@ class DialogManager {
     // MARK: Custom Alert Actions
 
     private func dismissActon() -> UIAlertAction {
-        let alertTitle = NSLocalizedString("Dismiss", comment: "Button title for dismissing the update AlertView")
+        let alertTitle = NSLocalizedString("Dismiss", tableName: nil, bundle: Bundle(for: DialogManager.self), comment: "Button title for dismissing the update AlertView")
 
         return UIAlertAction(title: alertTitle, style: .default)
     }
 
     private func updateAction(_ updateURL: URL) -> UIAlertAction {
-        let alertTitle = NSLocalizedString("Update", comment: "Button title for accepting the update AlertView")
+        let alertTitle = NSLocalizedString("Update", tableName: nil, bundle: Bundle(for: DialogManager.self), comment: "Button title for accepting the update AlertView")
 
         let updateHandler: (UIAlertAction) -> Void = { _ in
             guard UIApplication.shared.canOpenURL(updateURL) else { return }
